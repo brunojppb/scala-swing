@@ -35,7 +35,10 @@ class UI extends MainFrame {
   }
 
   def closeMe(): Unit = {
-    sys.exit(0)
+    val closeMessage = Dialog.showConfirmation(contents.head, "Are you sure?", optionType = Dialog.Options.YesNo, title=title)
+      if (closeMessage == Dialog.Result.Ok) {
+        sys.exit(0)
+      }
   }
 
 }
