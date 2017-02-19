@@ -1,5 +1,6 @@
 package ui
 import scala.swing._
+import scala.swing.event.{ButtonClicked, EditDone, SelectionChanged}
 
 /**
   * Created by bruno on 19/02/17.
@@ -69,6 +70,32 @@ class UI extends MainFrame {
       e.xLayoutAlignment = 0.0
     }
     border = Swing.EmptyBorder(10,10,10,10)
+  }
+
+  listenTo(nameField)
+  listenTo(commentField)
+  listenTo(gender.selection)
+  listenTo(likeScala)
+  listenTo(status1)
+  listenTo(status2)
+  listenTo(status3)
+  listenTo(pressMe)
+
+  reactions += {
+    case EditDone(`nameField`) =>
+      println("Your name is Now: " + nameField.text)
+    case EditDone(`commentField`) =>
+      println("You changed the comments")
+    case SelectionChanged(`gender`) =>
+      println("Your gender is now: " + gender.selection.item)
+    case ButtonClicked(`likeScala`) =>
+      if(!likeScala.selected) {
+        if(Dialog.showConfirmation(contents.head, "Are you sure you don't like Scala?") != Dialog.Result.Yes) {
+          likeScala.selected = true
+        }
+      }
+    case ButtonClicked(s) =>
+      println("Button click on button: '" + s.text + "'")
   }
 
   def reportAndClose(): Unit = {
